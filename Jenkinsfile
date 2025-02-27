@@ -30,8 +30,7 @@ pipeline {
                         bat "mvn clean compile"
                         echo 'Build completed successfully.'
                     } catch (Exception e) {
-                        echo 'Build failed! Skipping tests.'
-                        error "Build failed. Skipping tests."
+                        error "Build failed. Check logs for details."
                     }
                 }
             }
@@ -40,16 +39,18 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    def selectedBrowser = params.BROWSER
-                    echo "Selected browser: ${selectedBrowser}"
-                    echo 'Starting test execution...'
-                    bat "mvn test -Dbrowser=${selectedBrowser}"
-                    echo 'Test execution completed.'
+                    echo "Executing tests on: ${params.BROWSER}"
+                    try {
+                        bat "mvn test -Dbrowser=${params.BROWSER}"
+                        echo 'Test execution completed successfully.'
+                    } catch (Exception e) {
+                        error "Test execution failed. Check logs for details."
+                    }
                 }
             }
         }
 
-        stage('Generating the Report') {
+        stage('Generate Test Report') {
             steps {
                 script {
                     echo 'Generating test reports...'
@@ -61,23 +62,22 @@ pipeline {
 
         stage('Publish HTML Report') {
             steps {
-                echo 'Publishing test report...'
-                publishHTML(target: [
-                    reportDir: 'target/surefire-reports',
-                    reportFiles: 'index.html',
-                    reportName: 'Test Report',
-                    keepAll: true
-                ])
-                echo 'Report published successfully.'
+                script {
+                    echo 'Publishing test report...'
+                    publishHTML([
+                        reportDir: 'target/surefire-reports',
+                        reportFiles: 'index.html',
+                        reportName: 'Test Report',
+                    ])
+                    echo 'Report published successfully.'
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Archiving artifacts...'
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            echo 'Artifacts archived successfully.'
+            echo 'Pipeline execution completed.'
         }
     }
 }
