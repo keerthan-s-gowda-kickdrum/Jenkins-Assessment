@@ -50,7 +50,7 @@ pipeline {
             }
         }
 
-        stage('Generate Test Report') {
+stage('Generating the Report') {
             steps {
                 script {
                     echo 'Generating test reports...'
@@ -62,18 +62,18 @@ pipeline {
 
         stage('Publish HTML Report') {
             steps {
-                script {
-                    echo 'Publishing test report...'
-                    publishHTML([
-                        reportDir: 'target/surefire-reports',
-                        reportFiles: 'index.html',
-                        reportName: 'Test Report',
-                    ])
-                    echo 'Report published successfully.'
-                }
+                echo 'Publishing test report...'
+                publishHTML(target: [
+                    reportDir: 'target/surefire-reports',
+                    reportFiles: 'index.html',
+                    reportName: 'Test Report',
+                    keepAll: true
+                ])
+                echo 'Report published successfully.'
             }
         }
     }
+
 
     post {
         always {
