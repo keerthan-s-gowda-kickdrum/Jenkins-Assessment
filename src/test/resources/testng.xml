@@ -1,0 +1,8 @@
+<suite name="FlightTests">
+    <test name="Flight Test Execution">
+        <parameter name="browser" value="chrome"/>  <!-- Default Browser -->
+        <classes>
+            <class name="testClasses.FlightsSearchResultsTest"/>
+        </classes>
+    </test>
+</suite>
