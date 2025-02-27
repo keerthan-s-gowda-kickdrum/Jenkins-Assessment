@@ -43,7 +43,7 @@ public class FlightsSearchResultsTest {
     @Test
     public void testSelectAnyFlight() {
         // Verify flights are displayed
-        Assert.assertTrue(flightsSearchResultsPage.areFlightsDisplayed(), "❌ No flights found!");
+        Assert.assertTrue(flightsSearchResultsPage.areFlightsDisplayed(), "No flights found!");
 
         // Select the 4th flight dynamically
         flightsSearchResultsPage.selectFlightByRow(4);
