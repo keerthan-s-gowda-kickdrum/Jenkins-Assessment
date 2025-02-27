@@ -19,7 +19,7 @@ public class FlightsSearchResultsTest {
     @BeforeClass
     public void setUp(@Optional("chrome") String browser) {
 
-        System.out.println("🔹 Browser Selected: " + browser);
+        System.out.println("Browser Selected: " + browser);
 
         switch (browser.toLowerCase()) {
             case "firefox":
