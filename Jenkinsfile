@@ -52,8 +52,8 @@ pipeline {
         stage('Publish HTML Report') {
             steps {
                 publishHTML(target: [
-                    reportDir: 'target/site',
-                    reportFiles: 'surefire-report.html',
+                    reportDir: 'target/surefire-reports',
+                    reportFiles: 'index.html',
                     reportName: 'Test Report',
                     keepAll: true
                 ])
